@@ -1,0 +1,4 @@
+GLOSSARY PAGE FEATURES:
+1. Unified Dictionary: Combines Basic Vocab, Indicators, and Patterns into one list.
+2. Alpha-Search: Filter by letter or live text search.
+3. Senior-First Definitions: All definitions translated into plain, easy-to-understand English.

@@ -1,0 +1,9 @@
+
+MARKET PAGE SPECIFICATION (TRUTH SOURCE):
+1. Asset Hub: Curated list of 300+ crypto assets (Revolut verified).
+2. Volatility Traffic Lights: Green (Stable), Yellow (Moderate), Red (High Risk).
+3. Search functionality: Instant filter by name or ticker.
+4. AI Tools:
+   - Flash News: Google Search-grounded news summaries.
+   - Deep Search: Whitepaper and official link discovery.
+5. Real-time Feeds: 10-second price interval updates.

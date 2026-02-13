@@ -1,0 +1,5 @@
+ANALYZER PAGE FEATURES:
+1. Multimodal Upload: Drag-and-drop or click to upload chart screenshots (JPG/PNG).
+2. Gemini Vision Analysis: Uses Gemini 3 Pro to "see" and interpret uploaded chart patterns.
+3. Trend Interpretation: Provides an expert breakdown of support, resistance, and direction.
+4. Risk Grading: Assigns a safety score based on visual chart structure.

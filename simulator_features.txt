@@ -1,0 +1,19 @@
+SIMULATOR PAGE FEATURES (SOURCE OF TRUTH):
+1. Asset Identity & Selector: Displays Name, Symbol, and Price with a dropdown to switch coins instantly.
+2. Timeframe Engine: 1D, 1W, 1M, 3M, 1Y. Triggers full data injection and chart refresh with correct X-axis labels.
+3. Chart Engine (Stability Build): 
+   - Three View Modes: Line, Area, and Stick (Candlestick).
+   - Dimension-Locked: Uses explicit height (550px) to guarantee series visibility on all browsers.
+   - Force-Rebuild: Component re-mounts on every asset or timeframe change to prevent SVG stale states.
+4. Fibonacci Tool: One-click overlay of standard Fibonacci retracement levels (0, 23.6, 38.2, 50, 61.8, 78.6, 100).
+5. Indicators: Max 3 concurrent overlays. Support for SMA, EMA, RSI, MACD, and Bollinger Bands.
+6. Crypto Coach (AI): 
+   - Professional mentor with full access to technical indicators and chart patterns.
+   - Tailors advice to User Risk Profile (Conservative/Aggressive).
+7. Pattern Recon: High-contrast markers on the chart identifying AI-detected candlestick and trend patterns.
+8. Base 100 Simulation: 
+   - Start with $100.
+   - Live profit/loss tracking with 3-second price drift.
+   - One-click Buy/Sell and auto-logging to Journal.
+9. Trade Journal: Persistent history of all simulations with ROI and timestamps.
+10. MetaGlass Mode: Ray-Ban Meta optimized view with high-contrast UI.

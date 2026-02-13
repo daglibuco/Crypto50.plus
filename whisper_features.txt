@@ -1,0 +1,5 @@
+WHISPER AI FEATURES:
+1. Custom Signal Engine: Generates buy/sell signals based on personalized strategies.
+2. Grounded Insights: Uses Google Search grounding to pull real-time news into the signal logic.
+3. Strategy Saves: Save multiple coin strategies (Risk level, Horizon, Preferred Indicators).
+4. Confidence Meter: 0-100% confidence score for every signal generated.
