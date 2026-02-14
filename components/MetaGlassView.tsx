@@ -18,6 +18,23 @@ interface MetaGlassViewProps {
 
 const NEON_COLORS = ["#00ffff", "#ff00ff", "#ffff00"];
 
+const renderCandle = (props: any) => {
+  const { x, y, width, height, open, close, low, high, color } = props;
+  const isBullish = close >= open;
+  const candleColor = color || (isBullish ? '#00ff00' : '#ff0000');
+  const totalRange = high - low;
+  if (totalRange <= 0) return null;
+  const ratio = height / totalRange;
+  const bodyTop = y + (high - Math.max(open, close)) * ratio;
+  const bodyHeight = Math.max(Math.abs(open - close) * ratio, 1);
+  return (
+    <g>
+      <line x1={x + width / 2} y1={y} x2={x + width / 2} y2={y + height} stroke={candleColor} strokeWidth={2} />
+      <rect x={x} y={bodyTop} width={width} height={bodyHeight} fill={candleColor} stroke="#fff" strokeWidth={1} />
+    </g>
+  );
+};
+
 export const MetaGlassView: React.FC<MetaGlassViewProps> = ({ coin, data, activeIndicators, detectedPatterns, onClose }) => {
     const [chartType, setChartType] = useState<'line' | 'candle'>('line');
     const [showFib, setShowFib] = useState(false);
@@ -124,18 +141,14 @@ export const MetaGlassView: React.FC<MetaGlassViewProps> = ({ coin, data, active
                             ) : (
                                 <ComposedChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
                                     <CartesianGrid stroke="#222" vertical={false} />
-                                    <XAxis xAxisId={0} dataKey="time" hide />
-                                    <XAxis xAxisId={1} dataKey="time" stroke="#fff" tick={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
+                                    <XAxis dataKey="time" stroke="#fff" tick={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} />
                                     <YAxis domain={['auto', 'auto']} stroke="#fff" tick={{ fill: '#fff', fontSize: 10, fontWeight: 'bold' }} width={70} />
-                                    <Bar xAxisId={1} dataKey={(d) => [d.wickLow, d.wickHigh]} barSize={2} isAnimationActive={false}>
-                                        {data.map((e, i) => <Cell key={`wick-${i}`} fill={e.color === '#22c55e' ? '#00ff00' : '#ff0000'} />)}
-                                    </Bar>
-                                    <Bar xAxisId={0} dataKey={(d) => [d.bodyLow, d.bodyHigh]} barSize={16} isAnimationActive={false}>
-                                        {data.map((e, i) => <Cell key={`body-${i}`} fill={e.color === '#22c55e' ? '#00ff00' : '#ff0000'} stroke="#fff" strokeWidth={1} />)}
+                                    <Bar dataKey="close" barSize={16} isAnimationActive={false} shape={renderCandle}>
+                                        {data.map((e, i) => <Cell key={`candle-${i}`} color={e.color === '#22c55e' ? '#00ff00' : '#ff0000'} />)}
                                     </Bar>
                                     {activeIndicators.map((ind, idx) => renderIndicatorLines(ind, idx))}
                                     {showFib && fibLevels?.map((fib, i) => (
-                                      <ReferenceLine key={i} xAxisId={1} y={fib.price} stroke={fib.color} strokeWidth={2} strokeDasharray="5 5"><Label value={fib.label} position="insideLeft" fill="#fff" fontSize={10} /></ReferenceLine>
+                                      <ReferenceLine key={i} y={fib.price} stroke={fib.color} strokeWidth={2} strokeDasharray="5 5"><Label value={fib.label} position="insideLeft" fill="#fff" fontSize={10} /></ReferenceLine>
                                     ))}
                                 </ComposedChart>
                             )}

@@ -69,8 +69,8 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           
           <div className="flex items-center gap-4 w-full md:w-auto">
-            <nav className="relative flex-grow overflow-hidden flex items-center bg-slate-100 rounded-xl p-1">
-              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar scroll-smooth w-full pr-8">
+            <nav className="relative flex-grow flex items-center bg-slate-100 rounded-xl p-1">
+              <div className="flex flex-wrap items-center gap-1.5 w-full">
                   <button onClick={() => setView('welcome')} className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-[10px] md:text-xs font-black transition-all whitespace-nowrap ${currentView === 'welcome' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500'}`}><Home className="w-3.5 h-3.5" /> Home</button>
                   {isLoggedIn && !isAdmin && (
                       <>

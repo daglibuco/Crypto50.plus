@@ -56,6 +56,23 @@ const CustomTooltip = ({ active, payload }: any) => {
   return null;
 };
 
+const renderCandle = (props: any) => {
+  const { x, y, width, height, open, close, low, high } = props;
+  const isBullish = close >= open;
+  const color = isBullish ? '#22c55e' : '#ef4444';
+  const totalRange = high - low;
+  if (totalRange <= 0) return null;
+  const ratio = height / totalRange;
+  const bodyTop = y + (high - Math.max(open, close)) * ratio;
+  const bodyHeight = Math.max(Math.abs(open - close) * ratio, 1);
+  return (
+    <g>
+      <line x1={x + width / 2} y1={y} x2={x + width / 2} y2={y + height} stroke={color} strokeWidth={1.5} />
+      <rect x={x} y={bodyTop} width={width} height={bodyHeight} fill={color} />
+    </g>
+  );
+};
+
 export const Simulator: React.FC<SimulatorProps> = ({ coin: initialCoin, onBack }) => {
   const [currentCoin, setCurrentCoin] = useState<Coin>(initialCoin);
   const [timeframe, setTimeframe] = useState<Timeframe>('1M');
@@ -257,16 +274,7 @@ export const Simulator: React.FC<SimulatorProps> = ({ coin: initialCoin, onBack 
                       )}
                       
                       {chartType === 'candle' && (
-                        <Bar yAxisId="price" dataKey="candleWick" barSize={1} isAnimationActive={false} fill="none">
-                          {data.map((e, i) => <Cell key={`wick-${i}`} fill={e.close >= e.open ? '#22c55e' : '#ef4444'} />)}
-                        </Bar>
-                      )}
-                      {chartType === 'candle' && (
-                        <Bar yAxisId="price" dataKey="candleBody" barSize={16} isAnimationActive={false} fill="none">
-                          {data.map((e, i) => (
-                            <Cell key={`body-${i}`} fill={e.close >= e.open ? '#22c55e' : '#ef4444'} stroke={e.close >= e.open ? '#15803d' : '#991b1b'} strokeWidth={1} />
-                          ))}
-                        </Bar>
+                        <Bar yAxisId="price" dataKey="candleWick" barSize={16} isAnimationActive={false} shape={renderCandle} />
                       )}
 
                       {activeIndicators.map((ind, idx) => (
