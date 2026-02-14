@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { MarketList } from './components/MarketList';
 import { Simulator } from './components/Simulator';
@@ -12,9 +12,11 @@ import { AdminDashboard } from './components/AdminDashboard';
 import { LoginModal } from './components/LoginModal';
 import { Pricing } from './components/Pricing';
 import { ReportsHub } from './components/ReportsHub';
+import { PaymentPortal } from './components/PaymentPortal';
 import { Footer } from './components/Footer';
 import { Coin } from './types';
 import { COIN_DATA_SEED } from './constants';
+import { getActiveSession, clearSession } from './services/crmService';
 
 function App() {
   const [currentView, setCurrentView] = useState('welcome');
@@ -25,6 +27,22 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
+
+  // Payment Flow State
+  const [paymentPlan, setPaymentPlan] = useState<{name: string, price: number} | null>(null);
+
+  useEffect(() => {
+    // Session Persistence check on boot
+    const session = getActiveSession();
+    if (session) {
+      setIsLoggedIn(true);
+      setCurrentUser(session);
+      // If we were on admin, stay on admin (mock check)
+      if (session.email === 'test@crypto50.plus' || session.email === 'daniel-grossmann@hotmail.com') {
+        setCurrentView('market');
+      }
+    }
+  }, []);
 
   const handleCoinSelect = (coin: Coin) => {
     setSelectedCoin(coin);
@@ -45,10 +63,16 @@ function App() {
   };
 
   const handleLogout = () => {
+    clearSession();
     setIsLoggedIn(false);
     setIsAdmin(false);
     setCurrentUser(null);
     setCurrentView('welcome');
+  };
+
+  const handlePricingClick = (plan: string, amount: number) => {
+    setPaymentPlan({ name: plan, price: amount });
+    setCurrentView('payment');
   };
 
   const renderContent = () => {
@@ -56,7 +80,6 @@ function App() {
       case 'welcome':
         return <Welcome 
                   onStart={() => { 
-                      setIsLoggedIn(true);
                       setCurrentView('market'); 
                       window.scrollTo(0,0); 
                   }}
@@ -64,10 +87,16 @@ function App() {
                   onPricingClick={() => setView('pricing')}
                />;
       case 'pricing':
-        return <Pricing onJoinClick={() => {
-          if (isLoggedIn) setView('market');
-          else setShowLoginModal(true);
-        }} />;
+        return <Pricing onJoinClick={handlePricingClick} />;
+      case 'payment':
+        return paymentPlan ? (
+          <PaymentPortal 
+            planName={paymentPlan.name} 
+            amount={paymentPlan.price} 
+            onSuccess={() => { setView('market'); setPaymentPlan(null); }} 
+            onCancel={() => { setView('pricing'); setPaymentPlan(null); }} 
+          />
+        ) : <Pricing onJoinClick={handlePricingClick} />;
       case 'market':
         return <MarketList onSelectCoin={handleCoinSelect} onViewReports={() => setView('reports')} />;
       case 'reports':

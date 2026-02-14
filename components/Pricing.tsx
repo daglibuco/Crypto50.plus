@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { CheckCircle, CreditCard, Sparkles, Info, ShieldCheck, Zap, FileText, Calendar } from 'lucide-react';
+import { CheckCircle, CreditCard, Sparkles, Info, ShieldCheck, Zap, FileText, Calendar, ArrowRight } from 'lucide-react';
 
 interface PricingProps {
-  onJoinClick: () => void;
+  onJoinClick: (plan: string, amount: number) => void;
 }
 
 export const Pricing: React.FC<PricingProps> = ({ onJoinClick }) => {
@@ -75,7 +75,7 @@ export const Pricing: React.FC<PricingProps> = ({ onJoinClick }) => {
             <div className="bg-blue-600/20 text-blue-400 font-black text-[10px] uppercase tracking-widest px-4 py-2 rounded-full border border-blue-600/30 mb-8">
               Includes 50 Free Credits
             </div>
-            <button onClick={onJoinClick} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 uppercase tracking-widest text-xs">
+            <button onClick={() => onJoinClick('Primary Membership', 9.90)} className="w-full bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 uppercase tracking-widest text-xs">
               Activate Membership
             </button>
           </div>
@@ -88,14 +88,20 @@ export const Pricing: React.FC<PricingProps> = ({ onJoinClick }) => {
               <CreditCard className="w-6 h-6 text-blue-600" /> Refill Tiers
             </h3>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-400 transition-colors cursor-pointer group">
+              <div 
+                onClick={() => onJoinClick('50 Credits Pack', 10.00)}
+                className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-400 transition-colors cursor-pointer group"
+              >
                 <div>
                   <div className="text-lg font-black text-slate-900">50 Credits</div>
                   <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Standard Refill</div>
                 </div>
                 <div className="text-xl font-black text-blue-600">CHF 10.-</div>
               </div>
-              <div className="flex items-center justify-between p-4 bg-blue-50/50 rounded-2xl border-2 border-blue-600 group relative cursor-pointer">
+              <div 
+                onClick={() => onJoinClick('100 Credits Pack', 15.00)}
+                className="flex items-center justify-between p-4 bg-blue-50/50 rounded-2xl border-2 border-blue-600 group relative cursor-pointer"
+              >
                 <div className="absolute -top-2.5 right-4 bg-blue-600 text-white text-[8px] font-black px-2 py-1 rounded uppercase tracking-widest shadow-md">Best Value</div>
                 <div>
                   <div className="text-lg font-black text-slate-900">100 Credits</div>
@@ -103,7 +109,10 @@ export const Pricing: React.FC<PricingProps> = ({ onJoinClick }) => {
                 </div>
                 <div className="text-xl font-black text-blue-600">CHF 15.-</div>
               </div>
-              <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-400 transition-colors cursor-pointer">
+              <div 
+                onClick={() => onJoinClick('200 Credits Pack', 20.00)}
+                className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-400 transition-colors cursor-pointer"
+              >
                 <div>
                   <div className="text-lg font-black text-slate-900">200 Credits</div>
                   <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Power User Pack</div>
